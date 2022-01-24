@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+
+{% block meta %}<meta http-equiv="refresh" content="300">{% endblock %}
+
+{% block content %}
+    <div class="container" style="margin-top: 10px;">
+      <div class="row justify-content-end">
+        <div class="col-4">
+        </div>
+        <div class="col-4">
+        </div>
+        <div class="col-3">
+          <div class="alert alert-secondary text-center" role="alert">
+            Welcome: <strong>{{ template_user.username.upper() }}</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container" style="margin-top: 40px;">
+      <div class="row">
+        <div class="col-4">
+          <!--- 1 de 3 --->
+            <div class="card border-dark mb-3" style="max-width: 50rem;">
+              <div class="card-header">Totals</div>
+              <div class="card-body">
+                <h4 class="card-title">Totals on Environment</h4>
+                <p class="card-text">
+                  Total ports on Environment: {{ template_total_ports }}</br>
+                  Total caches on Environment: {{ template_total_caches_environment }}</br>
+                  </br>
+                  </br>
+                  </br>
+                  </br>
+                  </br>
+                  </br>
+                  </br>
+                  </br>
+                </p>
+              </div>
+            </div>
+        </div>
+        <div class="col-4">
+          <!--- 2 de 3 --->
+            <div class="card border-dark mb-3" style="max-width: 50rem;">
+              <div class="card-header">Hardware Models</div>
+              <div class="card-body">
+                <h4 class="card-title">Models on Environment</h4>
+                <p class="card-text">
+                  {% for model in template_model %}
+                    {{ model }}</br>
+                  {% endfor %}
+                  </br>
+                  </br>
+                  </br>
+                  </br>
+                  </br>
+                </p>
+              </div>
+            </div>
+        </div>
+        <div class="col-4">
+          <!--- 3 de 3 --->
+            <div class="card border-dark mb-3" style="max-width: 50rem;">
+              <div class="card-header">Software Versions</div>
+              <div class="card-body">
+                <h4 class="card-title">Firmwares on Environment</h4>
+                <p class="card-text">
+                  {% for firmware in template_firmware %}
+                    {{ firmware }}</br>
+                  {% endfor %}                 
+                </p>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <hr>
+
+    <div class="container" style="margin-top: 30px;">
+      <div class="row">
+        <div class="col-4">
+          <!--- 1 de 3 --->
+            <div class="card border-dark mb-3" style="max-width: 50rem;">
+              <div class="card-header">Top 3 - Ports Occupation</div>
+              <div class="card-body">
+                <h4 class="card-title">Hosts Ports Occupation</h4>
+                <p class="card-text">
+                  {% for hostname, ports_capacity_total in template_capacity.items() %}
+                    {{ hostname }} --> Ports Used: {{ ports_capacity_total }}%</br>
+                  {% endfor %}
+                </p>
+              </div>
+            </div>
+        </div>
+        <div class="col-4">
+          <!--- 2 de 3 --->
+            <div class="card border-dark mb-3" style="max-width: 50rem;">
+              <div class="card-header">Operational States</div>
+              <div class="card-body">
+                <h4 class="card-title">States Ports</h4>
+                <p class="card-text">
+                  Up/Up Ports: {{ template_total_ports_in_use }}</br>
+                  Up/Down Ports: {{ template_total_ports_down }}</br>
+                  Admin Down: {{ template_total_ports_admin_down }}</br>
+                </p>
+              </div>
+            </div>
+        </div>
+        <div class="col-4">
+          <!--- 3 de 3 --->
+            <div class="card border-dark mb-3" style="max-width: 50rem;">
+              <div class="card-header">Operational Speeds</div>
+              <div class="card-body">
+                <h4 class="card-title">Operational Speed</h4>
+                <p class="card-text">
+                  Oper Status 1Gb: {{ template_total_oper_status_1gb }}</br>
+                  Oper Status 10Gb: {{ template_total_oper_status_10gb }}</br>
+                  Oper Status 100Gb: {{ template_total_oper_status_100gb }}</br>
+                </p>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+{% endblock %}

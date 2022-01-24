@@ -1,0 +1,51 @@
+{% extends "base_clean.html" %}
+
+{% block style %}
+  <link rel="stylesheet" href="{{ url_for('static', filename= 'css/login_register.css') }}">
+{% endblock %}
+        
+{% block content %}
+<div class="container" >
+    <a class="links" id="paralogin"></a>
+    <div class="content">
+      <!--FORMULÁRIO DE LOGIN-->
+      <div id="login">
+        <form method="post" action="">
+          <h1>Net Tool - Login</h1>
+            {{ form.hidden_tag() }}
+            <p>
+                {{ form.username.label }}<br>
+                {{ form.username(size=32, placeholder="Username") }}<br>
+                {% for error in form.username.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </p>
+            <p>
+                {{ form.password.label }}<br>
+                {{ form.password(size=32, placeholder="password*$%!@") }}<br>
+                {% for error in form.password.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </p>
+            {% with messages = get_flashed_messages() %}
+              {% if messages %}
+                {% for message in messages %}
+                  <p style="color: red;">{{ message }}</p>
+                {% endfor %}
+              {% endif %}
+            {% endwith %}
+            <p>
+                {{ form.remember_me() }} {{ form.remember_me.label }}
+            </p>
+            <p>
+                {{ form.submit() }}
+            </p>
+          <p class="link">
+            Not registered ?
+            <a href="{{ url_for('register') }}">Create an account</a>
+          </p>
+        </form>
+      </div>
+    </div>
+</div>
+{% endblock %}

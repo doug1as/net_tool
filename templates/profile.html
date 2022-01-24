@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+  <div class="row justify-content-center">
+      <div class="row justify-content-center">
+        <div class="card mb-3 border-dark" style="max-width: 800px; margin-top: 150px;">
+          <div class="row g-0">
+            <div class="col-md-4" style="margin-top: 70px;">
+              <img src="{{ url_for('static', filename='img/user256.png') }}" alt="profile-img">
+            </div>
+
+            <div class="col-md-8">
+              <div class="card-body">
+
+                <h4 class="card-title">Personal Information</h4>
+                <hr>
+                  <table class="table align-middle table-hover">
+                    <tbody>
+                      <tr>
+                        <td>Username: </td>
+                        <td>{{ template_profile.username.upper() }}</td>
+                      </tr>
+                      <tr>
+                        <td>E-Mail: </td>
+                        <td>{{ template_profile.email }}</td>
+                      </tr>
+                      <tr>
+                        {% if template_profile.is_admin %}
+                          <td>Permission: </td>
+                          <td>Administrator</td>
+                        {% elif template_profile.is_engineer %}  
+                          <td>Permission: </td>
+                          <td>Engineer</td>
+                        {% else %}   
+                          <td>Permission: </td>
+                          <td>Read Only</td>    
+                        {% endif %}                     
+                      </tr>   
+                      <tr>
+                        {% if template_profile.send_email %}
+                          <td>Send E-Mail Notifications: </td>
+                          <td>Yes</td>
+                        {% else %}   
+                        <td>Send E-Mail Notifications: </td>
+                        <td>No</td>
+                        {% endif %}                     
+                      </tr>                                                         
+                      <tr>
+                        {% if template_profile.whatsapp_message %}
+                          <td>Send Whatsapp Notifications: </td>
+                          <td>Yes</td>
+                        {% else %}   
+                        <td>Send Whatsapp Notifications: </td>
+                        <td>No</td>
+                        {% endif %}                     
+                      </tr>                              
+                      <tr>
+                        <td>Joined at Date: </td>
+                        <td>{{ template_profile.joined_at_date.strftime("%Y-%m-%d - %H:%M:%S") }}</td>
+                      </tr>
+                      <tr>
+                        <td>Change Password: </td>
+                        <td>
+                          <form class="d-grid gap-2" action="{{ url_for('change_password') }}" method="get">
+                              <button type="submit" class="btn btn-dark btn-sm" formaction="{{ url_for('change_password') }}">
+                                  Change Password
+                              </button>
+                          </form>
+                        </td>
+                      </tr>
+                      {% with messages = get_flashed_messages() %}
+                        {% if messages %}
+                        <tr>
+                          <td colspan="2">
+                            {% for message in messages %}
+                              {% if 'Password successfully changed' in message %}
+                                <p style="color: green; text-align: center">{{ message }}</p>
+                              {% else %}
+                                <p style="color: red; text-align: center">{{ message }}</p>
+                              {% endif %}
+                            {% endfor %}
+                          </td>
+                        </tr>
+                          {% endif %}
+                      {% endwith %}
+                    </tbody>
+                  </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}<title>Test Page</title>{% endblock %}
+
+{% block content %}
+ <form class="row gx-3 gy-2 align-items-center" method="POST" action="">
+            {{ form.hidden_tag() }}
+            <p>
+                {{ form.hostname.label }}<br>
+                {{ form.hostname(placeholder="Hostname") }}<br>
+                {% for error in form.hostname.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </p>
+            <p>
+                {{ form.management_ip.label }}<br>
+                {{ form.management_ip(placeholder="Management IP") }}<br>
+                {% for error in form.management_ip.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </p>
+            <p>
+                {{ form.vendor.label }}<br>
+                {{ form.vendor(placeholder="Management IP") }}<br>
+                {% for error in form.vendor.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </p>
+            <p>
+                {{ form.net_side.label }}<br>
+                {{ form.net_side() }}<br>
+                {% for error in form.net_side.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </p>
+            {% with messages = get_flashed_messages() %}
+              {% if messages %}
+                {% for message in messages %}
+                  <p style="color: red;">{{ message }}</p>
+                {% endfor %}
+              {% endif %}
+            {% endwith %}
+              <div class="col-auto">
+               <p>{{ form.submit(class="btn btn-primary") }}</p>
+              </div>
+ </form>
+
+               {% if hostname %}
+                  <p>{{ hostname }}, World!</p>
+               {% endif %}
+               {% if management_ip %}
+                  <p>{{ management_ip }}, World!</p>
+               {% endif %}
+               {% if vendor %}
+                  <p>{{ vendor }}, World!</p>
+               {% endif %}
+               {% if net_side %}
+                  <p>{{ net_side }}, World!</p>
+               {% endif %}
+{% endblock %}

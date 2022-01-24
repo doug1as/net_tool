@@ -1,0 +1,178 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container" style="margin-top: 50px;">
+
+      <div class="row">
+
+          <div class="col-4" id="ciscoSpecs">
+            <div class="text-center d-grid gap-2">
+                  <button type="button" class="btn btn-dark btn-sm text-center d-grid gap-2">
+                      CISCO HARDWARE MODELS
+                  </button>
+            </div>
+          </div>
+
+          <div class="col-4" id="brocadeSpecs">
+            <div class="text-center d-grid gap-2">
+                  <button type="button" class="btn btn-dark btn-sm text-center d-grid gap-2">
+                      BROCADE HARDWARE MODELS
+                  </button>
+            </div>
+          </div>
+
+          <div class="col-4" id="hpSpecs">
+            <div class="text-center d-grid gap-2">
+                  <button type="button" class="btn btn-dark btn-sm text-center d-grid gap-2">
+                      HP HARDWARE MODELS
+                  </button>
+            </div>
+          </div>
+
+      </div>
+
+      <br>
+
+      <div class="row">
+
+        {% for cache in template_caches_unique_models %}
+          {% if ("93180" in cache[0]) or ("9504" in cache[0]) %}
+            <div class="col-6 ciscoOptions {{ cache[0] }}" style="display: none;">
+                <div class="text-center d-grid gap-2">
+                  <button type="button" class="btn btn-dark btn-sm text-center d-grid gap-2">{{ cache[0] }}</button>
+                </div>
+            </div>
+          {% endif %}
+        {% endfor %}
+
+        {% for cache in template_caches_unique_models %}
+          {% if "VDX" in cache[0] %}
+            <div class="col-6 brocadeOptions {{ cache[0] }}" style="display: none;">
+                <div class="text-center d-grid gap-2">
+                  <button type="button" class="btn btn-dark btn-sm text-center d-grid gap-2">{{ cache[0] }}</button>
+                </div>
+            </div>
+          {% endif %}
+        {% endfor %}
+
+        {% for cache in template_caches_unique_models %}
+          {% if "5900AF" in cache[0] %}
+            <div class="col-6 hpOptions {{ cache[0] }}" style="display: none;">
+                <div class="text-center d-grid gap-2">
+                  <button type="button" class="btn btn-dark btn-sm text-center d-grid gap-2">{{ cache[0] }}</button>
+                </div>
+            </div>
+          {% endif %}
+        {% endfor %}
+
+      </div>
+
+      <br>
+      <div class="row cisco93180" style="display: none;">
+
+          <div class="col-12 text-center" >
+
+            <h3>93180YC-EX - Front View</h3>
+            <img src="{{ url_for('static', filename='img/93180-FRONT.png') }}" class="img-fluid">
+            <br>
+            <img src="{{ url_for('static', filename='img/93180-FRONT-INFO.png') }}" class="img-fluid">
+              <br>
+              <br>
+              <br>
+
+            <h3>93180YC-EX - Back View</h3>
+            <img src="{{ url_for('static', filename='img/93180-BACK.png') }}" class="img-fluid">
+            <img src="{{ url_for('static', filename='img/93180-BACK-INFO.png') }}" class="img-fluid">
+              <br>
+              <br>
+
+          </div>
+
+      </div>
+
+      <div class="row cisco9504" style="display: none;">
+
+          <div class="col-12 text-center" >
+
+            <h3>C9504 - Front View</h3>
+            <img src="{{ url_for('static', filename='img/C9504-FRONT.png') }}" class="img-fluid">
+            <img src="{{ url_for('static', filename='img/C9504-FRONT-INFO.png') }}" class="img-fluid">
+              <br>
+              <br>
+
+            <h3>C9504 - Back View</h3>
+            <img src="{{ url_for('static', filename='img/C9504-BACK.png') }}" class="img-fluid">
+            <img src="{{ url_for('static', filename='img/C9504-BACK-INFO.png') }}" class="img-fluid">
+              <br>
+              <br>
+
+          </div>
+
+      </div>
+
+
+      <div class="row brocade6740" style="display: none;">
+
+          <div class="col-12 text-center" >
+
+            <h3>BR-VDX-6740 - Front View</h3>
+            <img src="{{ url_for('static', filename='img/VDX6740-FRONT.png') }}" class="img-fluid">
+              <br>
+              <br>
+
+            <h3>BR-VDX-6740 - Port Numbering</h3>
+            <img src="{{ url_for('static', filename='img/VDX6740-FRONT-PORT-NUMBERING.png') }}" class="img-fluid">
+              <br>
+              <br>
+
+            <h3>BR-VDX-6740 - Back View</h3>
+            <img src="{{ url_for('static', filename='img/VDX6740-BACK.png') }}" class="img-fluid">
+              <br>
+              <br>
+
+          </div>
+
+      </div>
+
+      <div class="row brocade6940" style="display: none;">
+
+          <div class="col-12 text-center" >
+
+            <h2>BR-VDX6940-144S - Front View</h2>
+            <img src="{{ url_for('static', filename='img/VDX6940-1-FRONT.png') }}" class="img-fluid">
+            <img src="{{ url_for('static', filename='img/VDX6940-2-FRONT.png') }}" class="img-fluid">
+                <br>
+                <br>
+
+            <h2>BR-VDX6940-144S - Port Numbering</h2>
+            <img src="{{ url_for('static', filename='img/VDX6940-2-FRONT-PORT-NUMBERING.png') }}" class="img-fluid">
+                <br>
+                <br>
+
+            <h2>BR-VDX6940-144S - Back View</h2>
+            <img src="{{ url_for('static', filename='img/VDX6940-BACK.png') }}" class="img-fluid">
+                <br>
+                <br>
+          </div>
+
+      </div>
+
+      <div class="row hp5900AF" style="display: none;">
+
+        <div class="col-12 text-center" >
+
+          <h2>HP-5900AF - Front View</h2>
+          <img src="{{ url_for('static', filename='img/5900AF-FRONT.png') }}" class="img-fluid">
+              <br>
+              <br>
+
+          <h2>HP-5900AF - Back View</h2>
+          <img src="{{ url_for('static', filename='img/5900AF-BACK.png') }}" class="img-fluid">
+              <br>
+              <br>
+        </div>
+
+    </div>      
+
+    </div>
+{% endblock %}

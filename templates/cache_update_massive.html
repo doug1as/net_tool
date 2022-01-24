@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}<title>Net Tool</title>{% endblock %}
+
+{% block content %}
+<div class="container" style="margin-top: 200px;">
+    <hr>
+    <form id="cacheUpdateMassive" class="row g-3" method="POST" action="">
+      {{ form.hidden_tag() }}
+      <div class="col-md-6">
+        {{ form.tacacs_user.label(for="inputTacacsUser", class="form-label") }}
+        {{ form.tacacs_user(id="inputTacacsUser", class="form-control") }}
+        {% for error in form.tacacs_user.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+      </div>
+      <div class="col-md-6">
+        {{ form.tacacs_pass.label(for="inputTacacsPass", class="form-label") }}
+        {{ form.tacacs_pass(id="inputTacacsPass", class="form-control") }}
+        {% for error in form.tacacs_pass.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+      </div>
+      <hr>
+      <div class="form-group" id="process" style="display:none;">
+        <div class="alert alert-warning text-center" role="alert">
+            Please wait, <strong>don't reload or close this tab</strong>, this procedure have a couple of hours.<br>
+            When it's done the button will be released !
+        </div>
+        <div class="text-center">
+          <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </div>
+      </div>
+
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            {% for message in messages %}
+              <p style="color: red;">{{ message }}</p>
+            {% endfor %}
+            <hr>
+          {% endif %}
+        {% endwith %}
+
+      <div class="col-12 text-center d-grid gap-2">
+        {{ form.submit(class="btn btn-dark", id="updateMassive") }}
+      </div>
+    </form>
+    <hr>
+</div>
+            <!--- Debug
+            --->
+{% endblock %}

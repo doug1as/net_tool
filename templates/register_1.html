@@ -1,0 +1,72 @@
+{% extends "base_clean.html" %}
+
+{% block style %}
+  <link rel="stylesheet" href="{{ url_for('static', filename= 'css/login_register.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="container" >
+    <a class="links" id="paracadastro"></a>
+
+    <div class="content">
+      <!--FORMULÁRIO DE CADASTRO-->
+      <div id="cadastro">
+        <form method="post" action="">
+          <h1>Net Tool - Register</h1>
+
+            {{ form.hidden_tag() }}
+            <p>
+                {{ form.username.label }}<br>
+                {{ form.username(size=32, placeholder="a0012345") }}<br>
+                {% for error in form.username.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </p>
+
+            <p>
+                {{ form.email.label }}<br>
+                {{ form.email(size=32,placeholder="email@email.com") }}<br>
+                {% for error in form.email.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </p>
+
+            <p>
+                {{ form.password.label }}<br>
+                {{ form.password(size=32,placeholder="password*$%!@") }}<br>
+                {% for error in form.password.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </p>
+            <p>
+                {{ form.password2.label }}<br>
+                {{ form.password2(size=32,placeholder="password*$%!@") }}<br>
+                {% for error in form.password2.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </p>
+
+            {% with messages = get_flashed_messages() %}
+              {% if messages %}
+                {% for message in messages %}
+                  <p style="color: red;">{{ message }}</p>
+                {% endfor %}
+              {% endif %}
+            {% endwith %}
+
+            <p>
+                {{ form.submit() }}
+            </p>
+
+            <p class="link">
+                Do you have account ?
+            <a href="{{ url_for('login') }}"> Sign in </a>
+
+          </p>
+        </form>
+      </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% block title %}<title xmlns="http://www.w3.org/1999/html">Net Tool</title>{% endblock %}
+
+{% block content %}
+    <div class="container" style="margin-top: 200px;">
+        <hr>
+        <form id="cache_register" class="row g-3" method="POST" action="">
+          {{ form.hidden_tag() }}
+          <div class="col-md-3">
+            {{ form.hostname.label(id="inputHostname", class="form-label") }}
+            {{ form.hostname(class="form-control", id="inputHostname", placeholder="L-BR-UF-XXX-XX-SCA-01") }}
+            {% for error in form.hostname.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+          </div>
+          <div class="col-md-3">
+            {{ form.management_ip.label(id="inputManagementIP", class="form-label") }}<br>
+            {{ form.management_ip(class="form-control", id="inputManagementIP", placeholder="172.16.x.x") }}<br>
+            {% for error in form.management_ip.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+          </div>
+           <div class="col-md-3">
+            {{ form.vendor.label(id="inputVendor", class="form-label") }}
+            {{ form.vendor(id="inputVendor", class="form-select") }}
+          </div>
+           <div class="col-md-3">
+            {{ form.net_side.label(id="inputNetSide", class="form-label") }}
+            {{ form.net_side(id="inputNetSide", class="form-select") }}
+          </div>
+
+            {% with messages = get_flashed_messages() %}
+              {% if messages %}
+                {% for message in messages %}
+                  <p style="color: red;">{{ message }}</p>
+                {% endfor %}
+              {% endif %}
+            {% endwith %}
+
+          <hr>
+          <div class="col-md-6">
+            {{ form.tacacs_user.label(id="inputTacacsUser", class="form-label") }}
+            {{ form.tacacs_user(id="inputTacacsUser", class="form-control") }}
+            {% for error in form.tacacs_user.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+          </div>
+          <div class="col-md-6">
+            {{ form.tacacs_pass.label(id="inputTacacsPass", class="form-label") }}
+            {{ form.tacacs_pass(id="inputTacacsPass", class="form-control") }}
+            {% for error in form.tacacs_pass.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+          </div>
+          <hr>
+          <div class="form-group" id="process" style="display:none;">
+            <div class="alert alert-warning text-center" role="alert">
+                Please wait, <strong>don't reload or close this tab</strong>, when it's done the bar is fulfilled (~3-10 minutes) !
+            </div>
+            <div class="progress">
+                <div class="progress-bar progress-bar-striped progress-bar-animated bg-dark" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                </div>
+            </div>
+            <br>
+            <div class="text-center">
+              <div class="spinner-border" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 text-center d-grid gap-2">
+            {{ form.submit(class="btn btn-dark") }}
+          </div>
+
+        </form>
+        <hr>
+    </div>
+            <!--- Debug
+               {% if hostname %}
+                  <p>{{ hostname }}, World!</p>
+               {% endif %}
+               {% if management_ip %}
+                  <p>{{ management_ip }}, World!</p>
+               {% endif %}
+               {% if vendor %}
+                  <p>{{ vendor }}, World!</p>
+               {% endif %}
+               {% if net_side %}
+                  <p>{{ net_side }}, World!</p>
+               {% endif %}
+            --->
+{% endblock %}

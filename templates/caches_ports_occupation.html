@@ -1,0 +1,158 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <link href="https://cdn.datatables.net/1.10.23/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid" style="margin-top: 20px;">
+  <div class="row">
+    <div class="col-12">
+
+      <table class="table table-striped table-hover table-bordered nowrap compact align-middle" id="cachePortsOccupationTable" width="100%">
+
+        <thead class="table-dark text-center">
+          <tr class="text-center">
+            <th>Hostname</th>
+            <th>Hardware Model</th>
+
+            <th>Ports 10GB Total</th>
+            <th>Ports 10GB Free</th>
+            <th>Ports 10GB Occupied</th>
+
+            <th>Ports 100GB Total</th>
+            <th>Ports 100GB Free</th>
+            <th>Ports 100GB Occupied</th>
+
+            <th>Last Check</th>
+            <th>Last Check Date</th>
+          </tr>
+        </thead>
+
+        <tbody class="text-center">
+          {% for cache in template_network_devices %}
+          <tr>
+            <td>{{ cache.hostname }}</td> <!-- Hostname -->
+            <td>{{ cache.hardware_model }}</td> <!-- Hardware Model -->
+            <td> <!-- Ports 10GB Total -->
+              <!-- INICIO FOR PARA 10GB -->
+              {% for interface_type in template_device_interfaces_type %}
+                {% if cache.id == interface_type.network_device_id %}
+                  {{ interface_type.ports_10gb }}                                                
+            </td> <!-- Ports 10GB Total -->
+            <td> <!-- Ports 10GB Free -->                             
+                  {{ interface_type.ports_10gb_free }}
+            </td> <!-- Ports 10GB Free -->
+            <td> <!-- Ports 10GB Occupied -->
+              <div class="progress">
+                {% if interface_type.ports_capacity_10gb <= 60 %}
+                    <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" role="progressbar" style="width: {{ interface_type.ports_capacity_10gb }}%;" aria-valuenow="{{ interface_type.ports_capacity_10gb }}%" aria-valuemin="0" aria-valuemax="{{ interface_type.ports_capacity_10gb }}">
+                    {{ interface_type.ports_capacity_10gb }}%
+                    </div>
+
+                {% elif interface_type.ports_capacity_10gb > 60 and interface_type.ports_capacity_10gb <= 75 %}
+                    <div class="progress-bar bg-warning progress-bar-striped progress-bar-animated" role="progressbar" style="width: {{ interface_type.ports_capacity_10gb }}%" aria-valuenow="{{ interface_type.ports_capacity_10gb }}%" aria-valuemin="0" aria-valuemax="{{ interface_type.ports_10gb }}">
+                    {{ interface_type.ports_capacity_10gb }}%
+                    </div>
+
+                {% else %}
+                    <div class="progress-bar bg-danger progress-bar-striped progress-bar-animated" role="progressbar" style="width: {{ interface_type.ports_capacity_10gb }}%" aria-valuenow="{{ interface_type.ports_capacity_10gb }}%" aria-valuemin="0" aria-valuemax="{{ interface_type.ports_10gb }}">
+                      {{ interface_type.ports_capacity_10gb }}%
+                    </div>
+
+                {% endif %}
+
+                {% endif %}
+              {% endfor %}
+              <!-- FIM FOR PARA 10GB -->    
+              </div>
+            </td> <!-- Ports 10GB Occupied -->
+
+            <td> <!-- Ports 100GB Total -->
+              <!-- INICIO FOR PARA 100GB -->
+              {% for interface_type in template_device_interfaces_type %}
+                {% if cache.id == interface_type.network_device_id %}
+                  {% if cache.hardware_model == 'BR-VDX6940-144S' %}
+                    4
+                  {% else %}
+                    {{ interface_type.ports_100gb }}
+                  {% endif %}
+            </td> <!-- Ports 100GB Total -->
+            <td> <!-- Ports 100GB Free -->
+                {% if cache.hardware_model == 'BR-VDX6940-144S' %}
+                  {{ 4 - interface_type.oper_status_100gb }}
+                {% else %}
+                  {{ interface_type.ports_100gb - interface_type.oper_status_100gb }}
+                {% endif %}                    
+            </td> <!-- Ports 100GB Free -->
+            <td> <!-- Ports 100GB Ocupied -->
+              <div class="progress">
+                    {% if interface_type.ports_capacity_100gb <= 60 %}
+                      <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" role="progressbar" style="width: {{ interface_type.ports_capacity_100gb }}%;" aria-valuenow="{{ interface_type.ports_capacity_100gb }}%" aria-valuemin="0" aria-valuemax="{{ interface_type.ports_100gb }}">
+                      {{ interface_type.ports_capacity_100gb }}%
+                      </div>
+
+                    {% elif interface_type.ports_capacity_100gb > 60 and interface_type.ports_capacity_100gb <= 75 %}
+                      <div class="progress-bar bg-warning progress-bar-striped progress-bar-animated" role="progressbar" style="width: {{ interface_type.ports_capacity_100gb }}%" aria-valuenow="{{ interface_type.ports_capacity_100gb }}%" aria-valuemin="0" aria-valuemax="{{ interface_type.ports_100gb }}">
+                      {{ interface_type.ports_capacity_100gb }}%
+                      </div>
+
+                    {% else %}
+                      <div class="progress-bar bg-danger progress-bar-striped progress-bar-animated" role="progressbar" style="width: {{ interface_type.ports_capacity_100gb }}%" aria-valuenow="{{ interface_type.ports_capacity_100gb }}%" aria-valuemin="0" aria-valuemax="{{ interface_type.ports_100gb }}">
+                        {{ interface_type.ports_capacity_100gb }}%
+                      </div>
+
+                    {% endif %}
+
+                {% endif %}
+              {% endfor %}
+              <!-- FIM FOR PARA 100GB -->                    
+              </div>
+            </td> <!-- Ports 100GB Ocuupied -->
+
+            <td> <!-- Last Check -->
+            {% if cache.last_check == True %}
+              <span class="badge bg-success">Success</span>
+            {% elif cache.last_check == False %}
+              <span class="badge bg-danger">Failed</span>
+            {% else %}
+              <span class="badge bg-warning text-dark">Not Polled</span>
+            {% endif %}
+            </td> <!-- Last Check -->
+            <td> <!-- Last Check Date -->
+            {% if cache.last_check == True %}
+              <span class="badge bg-success">{{ cache.last_check_date.strftime("%Y-%m-%d - %H:%M:%S") }}</span>
+            {% elif cache.last_check == False %}
+              <span class="badge bg-danger">{{ cache.last_check_date.strftime("%Y-%m-%d - %H:%M:%S") }}</span>
+            {% else %}
+              <span class="badge bg-warning text-dark">Not Polled</span>
+            {% endif %}
+            </td> <!-- Last Check Date -->
+          </tr>
+          {% endfor %}
+        </tbody>
+
+        <tfoot class="table-dark text-center">
+          <tr class="text-center">
+            <th>Hostname</th>
+            <th>Hardware Model</th>
+
+            <th>Ports 10GB Total</th>
+            <th>Ports 10GB Free</th>
+            <th>Ports 10GB Occupied</th>
+
+            <th>Ports 100GB Total</th>
+            <th>Ports 100GB Free</th>
+            <th>Ports 100GB Occupied</th>
+
+            <th>Last Check</th>
+            <th>Last Check Date</th>
+          </tr>
+        </tfoot>
+
+    </table>
+
+    </div>
+  </div>
+</div>
+{% endblock %}

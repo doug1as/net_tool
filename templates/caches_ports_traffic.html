@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <link href="https://cdn.datatables.net/1.10.23/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid" style="margin-top: 20px;">
+  <div class="row">
+    <div class="col-12">
+
+      <table class="table table-striped table-hover table-bordered nowrap compact align-middle" id="cachePortsTrafficTable" width="100%">
+
+        <thead class="table-dark text-center">
+          <tr class="text-center">
+            <th>Hostname</th>
+            <th>Interface</th>
+            <th>Traffic IN</th>
+            <th>Traffic OUT</th>
+            <th>Description</th>
+            <th>Last Check</th>
+            <th>Last Check Date</th>
+          </tr>
+        </thead>
+
+        <tbody class="text-center">
+          {% for interface in template_interfaces %}
+          <tr>
+            <td>
+              {% for cache in template_caches %}
+                {% if cache.id == interface.network_device_id %}
+                  {{ cache.hostname}}
+                {% endif %}
+              {% endfor %}
+            </td>
+            <td>{{ interface.interface}}</td>
+            <td>{{ interface.traffic_in}}</td>
+            <td>{{ interface.traffic_out}}</td>
+            <td>{{ interface.description}}</td>
+            <td>
+            {% if interface.last_check == True %}
+              <span class="badge bg-success">Success</span>
+            {% elif interface.last_check == False %}
+              <span class="badge bg-danger">Failed</span>
+            {% else %}
+              <span class="badge bg-warning text-dark">Not Polled</span>
+            {% endif %}
+            </td>
+            <td>
+            {% if interface.last_check == True %}
+              <span class="badge bg-success">{{ interface.last_check_date.strftime("%Y-%m-%d - %H:%M:%S") }}</span>
+            {% elif interface.last_check == False %}
+              <span class="badge bg-danger">Failed</span>
+            {% else %}
+              <span class="badge bg-warning text-dark">Not Polled</span>
+            {% endif %}              
+            </td>   
+          </tr>
+          {% endfor %}
+        </tbody>
+
+        <tfoot class="table-dark text-center">
+          <tr>
+            <th>Hostname</th>
+            <th>Interface</th>
+            <th>Traffic IN</th>
+            <th>Traffic OUT</th>
+            <th>Description</th>
+            <th>Last Check</th>
+            <th>Last Check Date</th>
+          </tr>
+        </tfoot>
+
+    </table>
+
+    </div>
+  </div>
+</div>
+{% endblock %}
